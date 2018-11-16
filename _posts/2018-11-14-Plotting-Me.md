@@ -13,13 +13,13 @@ Of the data available to me I thought the two most intesting pieces were the num
 
 In order to make this visualization I had to find the sum of pages I'd read for each category. Thus I had to find a way to group the rating and number of pages for each book together. Once I did this, I just iterated through these pairs while keeping track of the pages read for each rating. The code I used to do all this is shown below.
 
-```
+~~~~
 ratingsAndPages = np.stack((myRatings, pages))
 ratingPageSums = [0] * 5
 for i in range(len(ratingsAndPages[0])):
   if ratingsAndPages[0][i] != 0:
     ratingPageSums[int(ratingsAndPages[0][i]) - 1] += ratingsAndPages[1][i] 
-```
+~~~~
 
 Now I had all the data organized and just had to plot it. The data lended itself to representation in bar and pie charts. Each of these are shown here and were created using matplotlib.
 
@@ -37,7 +37,7 @@ Each like had a timestamp for when it occurred and what user's photo or video I 
 
 I saw that this was going to be trickier than the my reading plot for a couple of reasons. One, I couldn't use the timestamp data as it was and would to have to extract the month and year. Two, I would have to store the data based on two categories rather than just based on one in order for it to be plottable using the heatmap. To store the data I then had to create a 2d array with 12 rows (one for each month) and 6 columns (one for each year) that would track my likes for each month year combination. Once I had this in place, I then had to iterate through every row in my dataframe and take out the month and year from each timestamp. Then, by converting these extracted months and years into values between 0-11 and 0-5 respecitively I was able to find the cell in my 2D array that I would need to add a like to. All of this is in the code shown here 
 
-```
+~~~~
 yearAndMonthSums = np.zeros((12,6))
 likedUsers = {}
 for i in range(len(df2['Timestamp'])):
@@ -56,7 +56,7 @@ sortedLikedUsers = sorted(likedUsers.items(), key=(lambda x: x[1]))
 # Creates List of Colors to be used by October Likes Bar chart
 zippedSortedLikedUsers = zip(*sortedLikedUsers)
 colors = [assignColor(i[1]) for i in sortedLikedUsers]
-```
+~~~~
 
 
 ## Snapchat
