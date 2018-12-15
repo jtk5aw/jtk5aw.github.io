@@ -36,9 +36,9 @@ Looking at the two charts showed promising signs! It seemed that I had been able
 I felt like I'd gotten as much out of the previous dataset as I could and decided to begin looking into the Instagram data. It was much more in depth and it looked like I'd have a lot more options in deciding what I wanted to do.
 
 ## What do I like?
-The likes data that I had seemed to be the most interesting first choice. This was provided in a JSON file filled with every one of my past likes separated into two categories: "media likes" which was a list of my liked photos and videos and "comment likes" which was a list of my liked comments. Both of these were things that I had liked, not likes made by other users on my content. After briefly looking through this data I saw I had a lot more media likes so I decided to only consider those. The JSON file was parsed using the aptly named python package JSON and then put into a pandas dataframe.
+The likes data that I had seemed to be the most interesting first choice. This was provided in a JSON file filled with every one of my past likes separated into two categories: "media likes" which was a list of my liked photos and videos as well as "comment likes" which was a list of my liked comments. Both of these were things that I had liked, not likes made by other users on my content. At a glance I could tell I had a lot more media likes than I did comment likes so I decided to only consider those. I used the (aptly named) python package JSON to parse the data and then feed it into a pandas dataframe.
 
-Each like had a timestamp for when it occurred and what user's photo or video I had liked. With the timestamps I thought I could visualize how my likes were spread out over time. Since this was going to be displayed as a function of time my first thought was to just use a line plot. But this seemed too plain so I started looking at what other options I had. After stumbling on Seaborn's heatmap and I thought this would be a nice way to visualize these likes. Each cell in the heatmap could be the number of likes at that point in time. One axis could be the year and the other the month; this would allow me to compare data in the same month from year to year as well as compare months within the same year. Now I just had to start organizing the data.
+Each like had a timestamp for when it occurred and what the username of the person who's photo or video had been liked. With the timestamps I thought I could visualize how my likes were spread out over time. Since this was going to be displayed as a function of time my first thought was to just use a line plot. But this seemed too plain so I started looking at what other options I had. After stumbling on Seaborn's heatmap and I thought this would make for a nice visualization. Each cell in the heatmap could be the number of likes at that point in time. One axis could be the year and the other the month; this would allow me to compare data in the same month from year to year as well as compare months within the same year. Now I just had to start organizing the data.
 
 This was going to be a little trickier than the my last plot for a couple of reasons. One, I couldn't use the timestamp data as it was and would have to have to extract just the month and year. Two, I would have to store the data based on two categories rather than just one since the plot would be based on two separate variables this time. To store the data I then had to create a 2d array with 12 rows (one for each month) and 6 columns (one for each year) that would track my likes count for each month-year combination. Once I had this in place, I then had to iterate through every row in my dataframe and take out the month and year from each timestamp. By converting these extracted months and years into values between 0-11 and 0-5 respectively I could add to the corresponding likes cell in my 2D array. All of this code is shown here
 
@@ -61,7 +61,7 @@ This image let me see how I initially was liking lots of pictures before stoppin
 
 ## #follow4followback
 
-Now that I'd looked into my likes history I thought another interesting visualization would be of my follower/following totals over time. Again, since this data was also to be displayed over time my first option seemed to be a line plot. This time I thought it actually would be the best visualization however, a regular line plot still seemed too boring. So, I tried finding a way to make the plot more interesting and found Plotly's version. Plotly graphs can be made interactive and would allow me to display my follower count over time as well as the specific usernames of people I'd followed. This seemed perfect so I started organizing the followers data to match Plotly's requirements.
+Now that I'd looked into my likes history I thought another interesting visualization would be of my follower/following totals over time. Again, since this data was also to be displayed over time my first option seemed to be a line plot. This time I thought it actually would be the best visualization but, again, a regular line plot seemed too boring. So, I tried finding a way to make the plot more interesting and found Plotly's version. Plotly graphs can be made interactive and would allow me to display my follower count over time as well as the specific usernames of people I'd followed at what time. This seemed perfect so I started organizing the followers data to match Plotly's requirements.
 
 The followers data was also provided in a JSON file (called connectionsJSON) with each data point storing the username and date that user followed you. After extracting the followers data from the JSON file, the pairs had to be sorted by there timestamp so they could be plotted chronologically. Once the pairs were in the order, the username and timestamp values of each were split into separate lists. This would make the next step in this process much simpler. The code to do this is shown below.
 
@@ -94,3 +94,31 @@ A nearly identical trace object was created for my following data as well. With 
 Looking at the plot you can see my following count has been slightly higher than my follower count for nearly the whole time I've had Instagram. This is probably because of the big accounts I've followed for news and entertainment that don't follow me back. 😥
 
 # Snapchat
+
+At this point I felt like I'd exhausted my second dataset and wanted to move onto my third and final one, the Snapchat data. This wasn't quite as extensive as the Instagram data since only information on snaps from the last month were given. I don't know if that's all they store or just all they're willing to provide. In either case, it would be something I had to take into consideration when looking into the data.
+
+## A Week of Snaps
+
+This time I decided to look into the data on snaps I'd sent over the last month. Each data point had the Timestamp at which it was sent, who I sent it too, and the media type of the snap (photo or video). Since I didn't have my entire history on the app available to me, I thought I could focus on just one week of my Snapchat history instead. Looking at my visualization options I saw another Seaborn plot that seemed to be perfect, the strip plot. The reason this stood out to me is it allowed for one axis to use categorical data while the other used numerical. Since I wanted to display what my week on Snapchat would look like, I could divide the data into the day of the week it was sent and the time of day it was sent.
+
+This data was also provided in JSON format and was parsed in the same manner as the Instagram data. First, I had to convert the Timestamp from UTC to EST so it would correspond with a time of day that made sense to me. Then, I had to define the seven day period I would be taking data from. After this set up came the main challenge in organizing this data. Seaborn's strip plot can't plot Timestamp data directly and I had to find some way to convert it to a single numerical value. I decided it would be best to accomplish this just by finding the number of minutes that had passed in the day up to when the snap was sent. This was simple enough to do and this code along with rest of the data organization is shown below.
+
+```python
+for i in range(lengthOfColumns):
+  # Converting UTC time to US/Eastern Time
+  localTime = utc_to_local(snapsSentFrame["Created"][i][:-4])
+  # Creating local time, weekday as an int, weekday as a string, and minutes since midnight arrays
+  if localTime.month == 9 and localTime.day > 1 and localTime.day < 9:
+    weekdaysAsInt[i] = calendar.weekday(localTime.year, localTime.month, localTime.day)
+    minuteArr[i] = localTime.hour * 60 + localTime.minute
+```
+
+These created arrays were then put into a data frame and plotted using the stripplot function. The color of each dot was determined based on what type of media it was. The plot generated is shown here.
+
+![Strip Plot of a weeks worth of Snaps sent](/images/SnapchatPlotWithoutTitle.png)
+
+With this plot you can start to see what effects when I check my Snapchat. Monday through Thursday the data points start to cluster around 8:00 pm which is usually when I start winding down for the day and stop doing as much work. Then on Friday through Sunday the data is more densely clustered earlier in the day because I have less to do and more time to be on my phone. It can also be seen that there's a pretty big gap on Sunday from around 12:00-3:00. This happens to be when this project was being assigned so I must have been paying attention. 😎
+
+# Conclusion
+
+Sifting through the massive pile of numbers and strings that represent my history on these sites was really interesting. Taking what seemed to be a mess of data points and turning them into something that was easily viewable allowed me to gain a little insight into how I've used social media as well as learn to use some powerful data science packages. 
