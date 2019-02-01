@@ -100,3 +100,7 @@ Again no character showed any significant difference from the rest. This wasn't 
 Before wrapping up this project there was one more plot I wanted to experiment with. Recently I'd seen a lot of plots consisting of one square with smaller squares within it whos area represented the percentage some characteristic made up of the whole. I don't really know what these plots are actually called but I really liked the look of them. To incorporate one into this project I found how many lines were spoken by each character and plotted that in this "Square" plot (for lack of a better name).
 
 ![Square Plot of Lines Spoken By Character](/images/SpokenLinesByCharacter.PNG)
+
+# Conclusions
+
+When I was looking for a library that would allow me to perform Sentiment Analysis TextBlob was by far the easiest to use. However, it was also the least sophisticated and because of that probably the least accurate. All TextBlob does is query a stored database of words for every word it comes across to see if it has some polarity/subjectivity values or multipliers associated with it. Because of this word by word process of measuring the text, TextBlob has difficulty understanding context. The multipliers work to combat this since they are tied to words like "not" or "very" and change the polarity/subjectivity values of whatever words follow. However, it still leaves a lot of room for improvement. In the future, I could return to this project and try using a more sophisticated algorithm for Sentiment Analysis in order to see if it would lead to clearer or different results. 
