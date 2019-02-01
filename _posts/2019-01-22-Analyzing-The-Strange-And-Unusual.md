@@ -83,20 +83,20 @@ Now that I had all the data I wanted together in one data frame I could start wo
 
 First, I wanted to look at the overall polarity of the show by comparing the number of lines with positive and negative polarities. A pie chart would have just been too boring so I went with something new, a Waffle Plot. It was something I'd seen used in some other projects and had caught my eye (also has a pretty cool name). Now was as good a time as any to try it out.
 
-![Waffle Chart of Positive and Negative Polarity Lines Spoken](/images/PositiveVsNegativeWaffleChart.png)
+![Waffle Chart of Positive and Negative Polarity Lines Spoken](/images/PositiveVsNegativeWaffleChart.PNG)
 
 What the I saw wasn't what I expected; I thought there would be an almost even number of positive and negative lines. This piqued my interest so I thought next I could make a similar comparison but this time by character. This time, the best plot I could think of was a Box and Whisker plot as it could show the spreads of each character side by side.
 
-![Box and Whisker Plot of Polarity By Character](/images/PolarityByCharacter.png)
+![Box and Whisker Plot of Polarity By Character](/images/PolarityByCharacter.PNG)
 
 All the characters had almost identical spreads of polarity. None of them were significantly different than any other and all of them leaned towards being more positive than negative. This was again a surprise as I thought at least one character would be significantly different from the rest.
 
 From here I wanted to move on from polarity and decided to look into subjectivity. Since subjectivity is very similar to polarity I thought another Box and Whisker plot would be my best bet again.
 
-![Box and Whisker Plot of Subjectivity By Character](/images/SubjectivityByCharacter.png)
+![Box and Whisker Plot of Subjectivity By Character](/images/SubjectivityByCharacter.PNG)
 
 Again no character showed any significant difference from the rest. This wasn't as much of a surprise to me as subjectivity didn't seem like it would vary as much based on the content of the show. Since it was a fictional show having each character lean towards expressing opinions rather than facts would make sense.
 
 Before wrapping up this project there was one more plot I wanted to experiment with. Recently I'd seen a lot of plots consisting of one square with smaller squares within it whos area represented the percentage some characteristic made up of the whole. I don't really know what these plots are actually called but I really liked the look of them. To incorporate one into this project I found how many lines were spoken by each character and plotted that in this "Square" plot (for lack of a better name).
 
-![Square Plot of Lines Spoken By Character](/images/SpokenLinesByCharacter.png)
+![Square Plot of Lines Spoken By Character](/images/SpokenLinesByCharacter.PNG)
